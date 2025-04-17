@@ -29,8 +29,10 @@ function App() {
           return (
             <div key={index} className="post-container">
               <p>{post.title}</p>
+              <p>{post.created_at.substring(0, 10)}</p>
               <p>{post.author}</p>
               <p>{post.description}</p>
+              <Link to={`/edit/${post.id}`}>Edit</Link>
             </div>
           );
         })}
