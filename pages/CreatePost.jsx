@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../client";
-import { IoPlayBackSharp } from "react-icons/io5";
 
 const CreatePost = () => {
   const navigate = useNavigate(); //a function to direct path
@@ -11,6 +10,7 @@ const CreatePost = () => {
     title: "",
     author: "",
     description: "",
+    upvote: 0
   });
 
   // change the when typing in the form
@@ -31,6 +31,7 @@ const CreatePost = () => {
         title: postInfo.title,
         author: postInfo.author,
         description: postInfo.description,
+        upvote: postInfo.upvote
       })
       .select();
 

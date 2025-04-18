@@ -39,6 +39,7 @@ const HomePage = () => {
                   </div>
 
                   <p>Author: {post.author}</p>
+                  <p>Upvote: {post.upvote}</p>
                 </div>
               );
             })}

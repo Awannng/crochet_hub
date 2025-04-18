@@ -75,16 +75,24 @@
 .post-buttons {
   margin-top: 10px;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
 .post-buttons button {
   border: none;
   background-color: white;
   font-size: 1.3rem;
+}
+.delete-btn {
   color: red;
 }
 .post-buttons button:hover {
   cursor: pointer;
+}
+.upvote-button {
+  display: flex;
+  align-items: center;
+  color: black;
+  gap: 5px;
 }
 .edit-link {
   text-decoration: none;

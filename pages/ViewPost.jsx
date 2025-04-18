@@ -4,11 +4,16 @@ import { supabase } from "../client";
 import { IoPlayBackSharp } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaRegThumbsUp } from "react-icons/fa6";
 
 const ViewPost = () => {
   const { id } = useParams();
+  const [post, setPost] = useState({
+    title: "",
+    author: "",
+    description: "",
+  });
   const navigate = useNavigate();
-  const [post, setPost] = useState({ title: "", author: "", description: "" });
 
   // fetch a specific post based on id
   useEffect(() => {
@@ -22,7 +27,25 @@ const ViewPost = () => {
       setPost(data);
     };
     fetchPost();
-  }, []);
+  }, [id]);
+
+  // update the upvote count in the database
+  const updateVote = async (e) => {
+    e.preventDefault();
+
+    // have a count of upvotes and increase it when clicking
+    const upvote = (post.upvote || 0) + 1;
+
+    await supabase
+      .from("Post")
+      .update({
+        upvote: upvote,
+      })
+      .eq("id", id);
+
+    // update the post where upvote is being updated
+    setPost((prev) => ({ ...prev, upvote: upvote }));
+  };
 
   //  delete the data from the database
   const deletePost = async () => {
@@ -48,13 +71,22 @@ const ViewPost = () => {
           </div>
 
           <div className="post-buttons">
-            <Link className="edit-link" to={`/edit/${post.id}`}>
-              <FaEdit />
-            </Link>
-            <button onClick={deletePost}>
-              <RiDeleteBin6Line />
-            </button>
-            {/*Delete the post */}
+            <div className="upvote-button">
+              <button onClick={updateVote}>
+                <FaRegThumbsUp />
+              </button>
+              <p>Upvote: {post.upvote}</p>
+            </div>
+            <div>
+              <Link className="edit-link" to={`/edit/${post.id}`}>
+                <FaEdit />
+              </Link>
+              <button className="delete-btn" onClick={deletePost}>
+                <RiDeleteBin6Line />
+              </button> {/*Delete the post */}
+            </div>
+
+           
           </div>
         </div>
       </div>
