@@ -1,75 +1,154 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* the heading at the top of the page */
+.nav-bar {
+  background-color: aqua;
+  width: 100%;
+  height: 80px;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  align-items: center;
+  justify-content: space-between;
 }
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* the h1 for title: Crochet Hub */
+.nav-bar h1 {
+  margin-left: 5%;
 }
+/* the Link component for create post */
+.create-link,
+.home-link {
+  text-decoration: none;
+  font-size: 1.5rem;
+  color: black;
+}
+/* the Links for naviagtion */
+.nav-tabs {
+  display: flex;
+  gap: 30px;
+  margin-right: 5%;
+}
+/* ------------------------------------------------------------------ */
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* HomePage */
+/* the home page where shows a list of posts */
+.posts-content {
+  width: 70%;
+  margin: auto;
+  margin-top: 20px;
+}
+.posts-content:hover {
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
+/* the card for each post */
 .post-container {
   border: 1px solid black;
-  padding: 10px;
+  padding: 20px;
   margin: 10px;
   border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+/* ------------------------------------------------------------------ */
+
+/* ViewPost Page */
+.view-container {
+  width: 70%;
+  margin: auto;
+  margin-top: 10px;
+}
+/* the container of the specific post */
+.view-post {
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.post-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.post-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: end;
+}
+.post-buttons button {
+  border: none;
+  background-color: white;
+  font-size: 1.3rem;
+  color: red;
+}
+.post-buttons button:hover {
+  cursor: pointer;
+}
+.edit-link {
+  text-decoration: none;
+  margin-right: 10px;
+  color: black;
+  font-size: 1.3rem;
+  color: blue;
+}
+/* the back Link component that goes back to the homepage */
+.back-link {
+  text-decoration: none;
+  font-size: 1.7rem;
+  color: black;
+}
+
+/* ------------------------------------------------------------------ */
+
+/* CreatePost and EditPost page */
+.create-title,
+.edit-title {
+  text-align: center;
+  margin: 20px;
+  font-size: 2rem;
+}
+
+.form-container {
+  width: 70%;
+  margin: auto;
+  /* border: 1px solid rgb(255, 253, 253); */
+  margin-top: 30px;
+  border-radius: 10px;
+  /* background: rgb(255, 253, 253); */
+}
+.form-item {
+  margin: 15px;
+  gap: 10px;
+}
+label {
+  font-size: 1.2rem;
+}
+input[type="text"] {
+  width: 100%;
+  height: 40px;
+  padding: 2px;
+  font-size: 1rem;
+  padding-left: 10px;
+}
+textarea {
+  width: 100%;
+  padding: 2px;
+  font-size: 1rem;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+input[type="submit"] {
+  background-color: white;
+  padding: 5px;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+input[type="submit"]:hover {
+  cursor: pointer;
+}
+.submit-item {
+  display: flex;
+  justify-content: center;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../client";
+import { IoPlayBackSharp } from "react-icons/io5";
 
 const CreatePost = () => {
   const navigate = useNavigate(); //a function to direct path
@@ -37,27 +38,49 @@ const CreatePost = () => {
   };
   return (
     <>
-      Create Post
-      <form>
-        <label htmlFor="title">Title</label> <br />
-        <input type="text" id="title" name="title" onChange={handleChange} />
-        <br />
-        <label htmlFor="author">Author</label> <br />
-        <input type="text" id="author" name="author" onChange={handleChange} />
-        <br />
-        <label htmlFor="description">Description</label> <br />
-        <textarea
-          type="text"
-          id="description"
-          name="description"
-          rows={5}
-          cols={20}
-          onChange={handleChange}
-        />
-        <br />
-        <input type="submit" value="Submit" onClick={createPost} />
-      </form>
-      <Link to="/">Back</Link>
+      <div className="form-container">
+       
+        <h2 className="create-title">Create your post now!!</h2>
+        <form>
+          <div className="form-item">
+            <label htmlFor="title">Title</label> <br />
+            <input
+              type="text"
+              id="title"
+              name="title"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-item">
+            <label htmlFor="author">Author</label> <br />
+            <input
+              type="text"
+              id="author"
+              name="author"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-item">
+            <label htmlFor="description">Description</label> <br />
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              rows={5}
+              cols={20}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="submit-item">
+            <input type="submit" value="Submit" onClick={createPost} />
+          </div>
+        </form>
+      </div>
     </>
   );
 };

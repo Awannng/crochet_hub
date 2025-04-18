@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../client";
+import { IoPlayBackSharp } from "react-icons/io5";
 
 const EditPost = () => {
   const { id } = useParams();
@@ -46,40 +47,52 @@ const EditPost = () => {
   };
   return (
     <>
-      Edit post
-      <form>
-        <label htmlFor="title">Title</label> <br />
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={post.title}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="author">Author</label> <br />
-        <input
-          type="text"
-          id="author"
-          name="author"
-          value={post.author}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="description">Description</label> <br />
-        <textarea
-          type="text"
-          id="description"
-          name="description"
-          value={post.description}
-          rows={5}
-          cols={20}
-          onChange={handleChange}
-        />
-        <br />
-        <input type="submit" value="Submit" onClick={editPost} />
-      </form>
-      <Link to={`/view/${post.id}`}>Back</Link>
+      <div className="form-container">
+        <Link className="back-link" to={`/view/${post.id}`}>
+          <IoPlayBackSharp />
+        </Link>
+        <h2 className="edit-title">Edit post</h2>
+        <form>
+          <div className="form-item">
+            <label htmlFor="title">Title</label> <br />
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={post.title}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-item">
+            <label htmlFor="author">Author</label> <br />
+            <input
+              type="text"
+              id="author"
+              name="author"
+              value={post.author}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-item">
+            <label htmlFor="description">Description</label> <br />
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              value={post.description}
+              rows={5}
+              cols={20}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="submit-item">
+            <input type="submit" value="Submit" onClick={editPost} />
+          </div>
+        </form>
+      </div>
     </>
   );
 };

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../client";
+import { IoPlayBackSharp } from "react-icons/io5";
+import { FaEdit } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const ViewPost = () => {
   const { id } = useParams();
@@ -29,17 +32,32 @@ const ViewPost = () => {
 
   return (
     <>
-      
-      ViewPost
-      <div className="view-post">
-        <p>{post.title}</p>
-        <p>{String(post.created_at).substring(0, 10)}</p>
-        <p>{post.author}</p>
-        <p>{post.description}</p>
-        <Link to={`/edit/${post.id}`}>Edit</Link>
-        <button onClick={deletePost}>Delete</button> {/*Delete the post */}
+      <div className="view-container">
+        <Link className="back-link" to="/">
+          <IoPlayBackSharp />
+        </Link>
+        <div className="view-post">
+          <div className="post-heading">
+            <h1>{post.title}</h1>
+            <p>{String(post.created_at).substring(0, 10)}</p>
+          </div>
+
+          <div className="post-content">
+            <p>Author: {post.author}</p>
+            <p>{post.description}</p>
+          </div>
+
+          <div className="post-buttons">
+            <Link className="edit-link" to={`/edit/${post.id}`}>
+              <FaEdit />
+            </Link>
+            <button onClick={deletePost}>
+              <RiDeleteBin6Line />
+            </button>
+            {/*Delete the post */}
+          </div>
+        </div>
       </div>
-      <Link to="/">Back</Link>
     </>
   );
 };

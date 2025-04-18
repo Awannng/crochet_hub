@@ -1,43 +1,26 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./App.css";
-import { supabase } from "../client";
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
+import { IoCreate } from "react-icons/io5";
+import { IoHome } from "react-icons/io5";
 
 function App() {
-  // storing post where fetch the data from the backend database
-  const [posts, setPosts] = useState([]);
-  const navigate = useNavigate();
-  
-  // fetch the post data from the database
-  useEffect(() => {
-    const fetchPost = async () => {
-      const { data } = await supabase
-        .from("Post")
-        .select()
-        .order("created_at", { ascending: true });
-
-      setPosts(data);
-    };
-    fetchPost();
-  }, []);
-
   return (
     <>
-      <Link to="/create">Create Post</Link>
-      {/* map each post on the screen */}
-      {posts &&
-        posts.map((post, index) => {
-          return (
-            <div
-              key={index}
-              className="post-container"
-              onClick={() => navigate(`/view/${post.id}`)}
-            >
-              <p>{post.title}</p>
-              <p>{post.created_at.substring(0, 10)}</p>
-            </div>
-          );
-        })}
+      <div className="nav-bar">
+        <h1>Crochet Hub</h1>
+        <div className="nav-tabs">
+          <Link className="home-link" to="/">
+            <IoHome />
+          </Link>
+
+          <Link className="create-link" to="/create">
+            <IoCreate />
+          </Link>
+        </div>
+      </div>
+
+      {/* shows the children route components */}
+      <Outlet />
     </>
   );
 }
