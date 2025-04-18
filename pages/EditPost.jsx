@@ -79,7 +79,7 @@ const EditPost = () => {
         <br />
         <input type="submit" value="Submit" onClick={editPost} />
       </form>
-      <Link to="/">Back</Link>
+      <Link to={`/view/${post.id}`}>Back</Link>
     </>
   );
 };
