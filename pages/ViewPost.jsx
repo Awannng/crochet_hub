@@ -8,23 +8,34 @@ import { FaRegThumbsUp } from "react-icons/fa6";
 
 const ViewPost = () => {
   const { id } = useParams();
+  const [comments, setComments] = useState([]);
   const [post, setPost] = useState({
     title: "",
     author: "",
     description: "",
+    comment: "",
   });
   const navigate = useNavigate();
 
-  // fetch a specific post based on id
   useEffect(() => {
     const fetchPost = async () => {
-      const { data } = await supabase
+      // fetch a specific post based on id
+      const { data: post_data } = await supabase
         .from("Post")
         .select()
         .eq("id", id)
         .single();
 
-      setPost(data);
+      setPost(post_data);
+
+      // get comments based on post id
+      const { data: post_comment } = await supabase
+        .from("Comments")
+        .select()
+        .eq("post_id", id)
+        .order("created_at", { ascending: false });
+
+      setComments(post_comment);
     };
     fetchPost();
   }, [id]);
@@ -45,6 +56,27 @@ const ViewPost = () => {
 
     // update the post where upvote is being added
     setPost((prev) => ({ ...prev, upvote: upvote }));
+  };
+
+  // for comment input box type
+  const handleComment = (e) => {
+    setPost((prev) => {
+      return { ...prev, comment: e.target.value };
+    });
+  };
+
+  // insert comment to supabase Comments table with foregin key connected to individual Post
+  const addComment = async (e) => {
+    e.preventDefault();
+    const { data } = await supabase
+      .from("Comments")
+      .insert({ comment: post.comment, post_id: id })
+      .select();
+
+    // allows comment to be shown when added simultaneously
+    setComments((prev) => [data[0], ...prev]);
+    // refresh the comment input box
+    setPost((prev) => ({ ...prev, comment: "" }));
   };
 
   //  delete the data from the database
@@ -78,16 +110,37 @@ const ViewPost = () => {
               </button>
               <p>Upvote: {post.upvote}</p>
             </div>
-            
+
             <div>
               <Link className="edit-link" to={`/edit/${post.id}`}>
                 <FaEdit />
               </Link>
               <button className="delete-btn" onClick={deletePost}>
                 <RiDeleteBin6Line />
-              </button>{" "}
+              </button>
               {/*Delete the post */}
             </div>
+          </div>
+        </div>
+
+        <div className="comments-section">
+          <h3>Comments</h3>
+          {/* display the comments */}
+          <div>
+            {comments &&
+              comments.map((comment, index) => {
+                return <p key={index}>{comment.comment}</p>;
+              })}
+          </div>
+          <div>
+            <input
+              type="text"
+              name="comment"
+              id="comment"
+              placeholder="Leave a comment..."
+              onChange={handleComment}
+            />
+            <button onClick={addComment}>add Comment</button>
           </div>
         </div>
       </div>
