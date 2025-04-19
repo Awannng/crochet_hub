@@ -5,37 +5,43 @@ import { supabase } from "../client";
 const HomePage = () => {
   // storing post where fetch the data from the backend database
   const [posts, setPosts] = useState([]);
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
   const navigate = useNavigate();
 
   // fetch the post data from the database
   useEffect(() => {
     const fetchPost = async () => {
-      if (search == "date") {
+      let query = supabase.from("Post").select();
+
+      // apply sorting
+      if (sort === "date") {
         // order the data based on date, from newest to oldest
-        const { data } = await supabase
-          .from("Post")
-          .select()
-          .order("created_at", { ascending: false });
-        setPosts(data);
-      } else if (search == "upvote") {
+        query = query.order("created_at", { ascending: false });
+      } else if (sort === "upvote") {
         //  order the data based on upvote counts, highest to lowest
-        const { data } = await supabase
-          .from("Post")
-          .select()
-          .order("upvote", { ascending: false });
-        setPosts(data);
+        query = query.order("upvote", { ascending: false });
       } else {
         // order the data based on date, from oldest to newest
-        const { data } = await supabase
-          .from("Post")
-          .select()
-          .order("created_at", { ascending: true });
-        setPosts(data);
+        query = query.order("created_at", { ascending: true });
       }
+
+      //fetch the database
+      const { data } = await query;
+
+      let filteredData = data;
+      // checks if search is not empty, search by title or author
+      if (search.trim() !== "") {
+        filteredData = data.filter(
+          (post) =>
+            post.title.toLowerCase().includes(search.toLowerCase()) ||
+            post.author.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      setPosts(filteredData);
     };
     fetchPost();
-  }, [search]);
+  }, [search, sort]);
 
   // calculate how many time ago the post had been posted
   const getTimeAgo = (dateString) => {
@@ -68,19 +74,28 @@ const HomePage = () => {
   return (
     <>
       <div className="posts-content">
+        <div>
+          <input
+            type="text"
+            name="value"
+            placeholder="search by title or author"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
         <div className="view-ways">
           <h3>Order by:</h3>
           <button
             name="upvote"
             value="upvote"
-            onClick={(e) => setSearch(e.target.value)}
+            onClick={(e) => setSort(e.target.value)}
           >
             Upvote
           </button>
           <button
             name="date"
             value="date"
-            onClick={(e) => setSearch(e.target.value)}
+            onClick={(e) => setSort(e.target.value)}
           >
             Date
           </button>
