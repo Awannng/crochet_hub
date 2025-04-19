@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../client";
 
 const CreatePost = () => {
   const navigate = useNavigate(); //a function to direct path
+  const fileInputRef = useRef(null);
 
   // storing the post information and send it to backend database
   const [postInfo, setPostInfo] = useState({
     title: "",
     author: "",
     description: "",
-    upvote: 0
+    imageUrl: "",
   });
 
   // change the when typing in the form
@@ -21,9 +22,48 @@ const CreatePost = () => {
     });
   };
 
+  // handles uplaod images to supabase storage and get image url back
+  const uploadImage = async (file) => {
+    // validate file
+    if (!file) {
+      alert("Please select an image");
+    }
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload an image file (JPEG, PNG, etc.)");
+    }
+
+    // Add file size validation (e.g., 5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error("File size too large (max 5MB)");
+    }
+
+    const fileName = `images/${Date.now()}_${file.name}`;
+
+    //upload to supabase storage
+    const { data, error } = await supabase.storage
+      .from("post-image")
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (error) throw error;
+
+    // get public URL
+    const imageURL = `${
+      import.meta.env.VITE_SUPABASE_URL
+    }/storage/v1/object/public/${"post-image"}/${data.path}`;
+
+    return imageURL;
+  };
+
   // creates a post in the database
   const createPost = async (e) => {
     e.preventDefault();
+
+    // Use the ref to access the file input
+    const file = fileInputRef.current?.files?.[0];
+    const iamgeURL = await uploadImage(file); //get image url from supabse storage
 
     await supabase
       .from("Post")
@@ -31,7 +71,8 @@ const CreatePost = () => {
         title: postInfo.title,
         author: postInfo.author,
         description: postInfo.description,
-        upvote: postInfo.upvote
+        upvote: 0,
+        imageUrl: iamgeURL,
       })
       .select();
 
@@ -40,7 +81,6 @@ const CreatePost = () => {
   return (
     <>
       <div className="form-container">
-       
         <h2 className="create-title">Create your post now!!</h2>
         <form>
           <div className="form-item">
@@ -77,6 +117,19 @@ const CreatePost = () => {
               required
             />
           </div>
+
+          <div className="form-item">
+            <label htmlFor="image">Image</label> <br />
+            <input
+              ref={fileInputRef}
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              required
+            />
+          </div>
+
           <div className="submit-item">
             <input type="submit" value="Submit" onClick={createPost} />
           </div>

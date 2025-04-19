@@ -5,6 +5,7 @@ import { supabase } from "../client";
 const HomePage = () => {
   // storing post where fetch the data from the backend database
   const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState()
   const navigate = useNavigate();
 
   // fetch the post data from the database
@@ -23,6 +24,7 @@ const HomePage = () => {
   return (
     <>
       <div className="posts-content">
+        order by; upvote , date
         {posts.length > 0 ? (
           <div>
             {/* map each post on the screen */}

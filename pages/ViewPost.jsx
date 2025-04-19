@@ -43,7 +43,7 @@ const ViewPost = () => {
       })
       .eq("id", id);
 
-    // update the post where upvote is being updated
+    // update the post where upvote is being added
     setPost((prev) => ({ ...prev, upvote: upvote }));
   };
 
@@ -67,6 +67,7 @@ const ViewPost = () => {
 
           <div className="post-content">
             <p>Author: {post.author}</p>
+            <img src={post.imageUrl} alt="post image" />
             <p>{post.description}</p>
           </div>
 
@@ -77,16 +78,16 @@ const ViewPost = () => {
               </button>
               <p>Upvote: {post.upvote}</p>
             </div>
+            
             <div>
               <Link className="edit-link" to={`/edit/${post.id}`}>
                 <FaEdit />
               </Link>
               <button className="delete-btn" onClick={deletePost}>
                 <RiDeleteBin6Line />
-              </button> {/*Delete the post */}
+              </button>{" "}
+              {/*Delete the post */}
             </div>
-
-           
           </div>
         </div>
       </div>
