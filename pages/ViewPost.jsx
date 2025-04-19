@@ -5,6 +5,7 @@ import { IoPlayBackSharp } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegThumbsUp } from "react-icons/fa6";
+import { FaArrowUp } from "react-icons/fa";
 
 const ViewPost = () => {
   const { id } = useParams();
@@ -68,6 +69,10 @@ const ViewPost = () => {
   // insert comment to supabase Comments table with foregin key connected to individual Post
   const addComment = async (e) => {
     e.preventDefault();
+    if (post.comment === "") {
+      alert("Comment cannot be empty");
+      return;
+    }
     const { data } = await supabase
       .from("Comments")
       .insert({ comment: post.comment, post_id: id })
@@ -129,18 +134,25 @@ const ViewPost = () => {
           <div>
             {comments &&
               comments.map((comment, index) => {
-                return <p key={index}>{comment.comment}</p>;
+                return (
+                  <p className="each-comment" key={index}>
+                    {comment.comment}
+                  </p>
+                );
               })}
           </div>
-          <div>
+          <div className="comment-item">
             <input
               type="text"
               name="comment"
               id="comment"
               placeholder="Leave a comment..."
+              value={post.comment}
               onChange={handleComment}
             />
-            <button onClick={addComment}>add Comment</button>
+            <button onClick={addComment}>
+              <FaArrowUp />
+            </button>
           </div>
         </div>
       </div>
