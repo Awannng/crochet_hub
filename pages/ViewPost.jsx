@@ -112,8 +112,8 @@ const ViewPost = () => {
 
           <div className="post-content">
             <p>Author: {post.author}</p>
-            <img src={post.imageUrl} alt="post image" />
-            <p>{post.description}</p>
+            <img className="post-image" src={post.imageUrl} alt="post image" />
+            <p className="description">{post.description}</p>
           </div>
 
           <div className="post-buttons">
@@ -160,7 +160,7 @@ const ViewPost = () => {
               onChange={handleComment}
             />
             <button onClick={addComment}>
-              <FaArrowUp />
+              <FaArrowUp className="comment-btn"/>
             </button>
           </div>
         </div>

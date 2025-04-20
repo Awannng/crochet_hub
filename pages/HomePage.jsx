@@ -99,7 +99,7 @@ const HomePage = () => {
             })}
           </div>
         ) : (
-          <p>No post yet...</p>
+          <h1 className="no-post">No post yet...</h1>
         )}
       </div>
     </>

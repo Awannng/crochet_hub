@@ -80,6 +80,9 @@
   font-size: 0.9rem;
   border: none;
 }
+.no-post {
+  margin-top: 20px;
+}
 /* ------------------------------------------------------------------ */
 
 /* ViewPost Page */
@@ -97,15 +100,22 @@
   border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
+  box-shadow: 8px 8px lightblue;
 }
 .post-heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.post-content img {
+.post-image {
   width: 80%;
   height: auto;
+  margin-left: 10%;
+  margin-top: 5px;
+}
+.description {
+  font-size: 1.3rem;
+  margin-top: 5px;
 }
 .post-buttons {
   margin-top: 10px;
@@ -123,7 +133,7 @@
   color: black;
   gap: 5px;
 }
-.thumb-up:hover{
+.thumb-up:hover {
   cursor: pointer;
   color: magenta;
 }
@@ -168,10 +178,17 @@
   gap: 10px;
 }
 .comment-item button {
+  border: none;
+  background-color: white;
+}
+.comment-btn {
   border-radius: 50%;
   width: 30px;
   height: 30px;
   font-size: medium;
+}
+.comment-btn:hover {
+  color: lightblue;
 }
 .comment-item button:hover {
   cursor: pointer;
@@ -217,15 +234,22 @@ textarea {
   padding-top: 10px;
 }
 input[type="submit"] {
-  background-color: white;
+  background-color: #89cff0;
   padding: 5px;
   font-size: 1rem;
   border-radius: 5px;
+  border: none;
 }
 input[type="submit"]:hover {
   cursor: pointer;
+  background-color: #94bbe1;
 }
 .submit-item {
   display: flex;
   justify-content: center;
+}
+
+/* Edit page */
+.current-image {
+  margin: 10px;
 }

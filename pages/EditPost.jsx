@@ -37,13 +37,27 @@ const EditPost = () => {
     fetchPost();
   }, []);
 
-  // update the post in the database
+  // update the post in the database, can edit even if the image file is empty
   const editPost = async (e) => {
     e.preventDefault();
 
+    // initial imageUrl to the uploaded image
+    let imageURL = post.imageUrl;
+
     // Use the ref to access the file input
     const file = fileInputRef.current?.files?.[0];
-    const iamgeURL = await uploadImage(file); //get image url from supabse storage
+    //if the file is not empty
+    if (file) {
+      imageURL = await uploadImage(file); //get image url from supabse storage
+
+      // if the updated image is not the same, delete the previous image from database
+      if (post.imageUrl && post.imageUrl !== imageURL) {
+        const imgArr = String(post.imageUrl).split("/");
+        await supabase.storage
+          .from("post-image")
+          .remove([`images/${imgArr[9]}`]);
+      }
+    }
 
     await supabase
       .from("Post")
@@ -51,12 +65,13 @@ const EditPost = () => {
         title: post.title,
         author: post.author,
         description: post.description,
-        imageUrl: iamgeURL,
+        imageUrl: imageURL,
       })
       .eq("id", id);
 
-    navigate("/"); //go back go homepage
+    navigate(`/view/${id}`); //go back go view page
   };
+
   return (
     <>
       <div className="form-container">
@@ -101,7 +116,7 @@ const EditPost = () => {
           </div>
 
           <div className="form-item">
-            <label htmlFor="image">Image</label> <br />
+            <label htmlFor="image">Image (JPEG, PNG, ect...)</label> <br />
             <input
               ref={fileInputRef}
               type="file"
