@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegThumbsUp } from "react-icons/fa6";
 import { FaArrowUp } from "react-icons/fa";
+import { getTimeAgo } from "../utils";
 
 const ViewPost = () => {
   const { id } = useParams();
@@ -84,9 +85,16 @@ const ViewPost = () => {
     setPost((prev) => ({ ...prev, comment: "" }));
   };
 
-  //  delete the data from the database
+  //  delete the post, comments, image from the database
   const deletePost = async () => {
+    // 1. Delete comments first (to avoid foreign key conflicts)
+    await supabase.from("Comments").delete().eq("post_id", id);
+    // 2. Delete the post
     await supabase.from("Post").delete().eq("id", id);
+
+    // 3. Delete the image from storage (if it exists)
+    const imgArr = String(post.imageUrl).split("/");
+    await supabase.storage.from("post-image").remove([`images/${imgArr[9]}`]);
     navigate("/");
   };
 
@@ -111,14 +119,14 @@ const ViewPost = () => {
           <div className="post-buttons">
             <div className="upvote-button">
               <button onClick={updateVote}>
-                <FaRegThumbsUp />
+                <FaRegThumbsUp className="thumb-up" />
               </button>
               <p>Upvote: {post.upvote}</p>
             </div>
 
             <div>
-              <Link className="edit-link" to={`/edit/${post.id}`}>
-                <FaEdit />
+              <Link to={`/edit/${post.id}`}>
+                <FaEdit className="edit-link" />
               </Link>
               <button className="delete-btn" onClick={deletePost}>
                 <RiDeleteBin6Line />
@@ -135,9 +143,10 @@ const ViewPost = () => {
             {comments &&
               comments.map((comment, index) => {
                 return (
-                  <p className="each-comment" key={index}>
-                    {comment.comment}
-                  </p>
+                  <div key={index} className="each-comment">
+                    <p>{comment.comment}</p>
+                    <small>{getTimeAgo(comment.created_at)}</small>
+                  </div>
                 );
               })}
           </div>

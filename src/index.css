@@ -5,12 +5,13 @@
 }
 /* the heading at the top of the page */
 .nav-bar {
-  background-color: aqua;
+  background-color: #89cff0;
   width: 100%;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: rgb(6, 39, 69);
 }
 /* the h1 for title: Crochet Hub */
 .nav-bar h1 {
@@ -22,6 +23,10 @@
   text-decoration: none;
   font-size: 1.5rem;
   color: black;
+}
+.create-link:hover,
+.home-link:hover {
+  color: #0d61b6;
 }
 /* the Links for naviagtion */
 .nav-tabs {
@@ -51,6 +56,30 @@
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 }
 
+.sort-ways {
+  display: flex;
+  align-items: center;
+}
+.not-selected {
+  background-color: #89cff0;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  border: none;
+}
+.not-selected:hover {
+  cursor: pointer;
+  background-color: #94bbe1;
+}
+.selected {
+  background-color: #94bbe1;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  border: none;
+}
 /* ------------------------------------------------------------------ */
 
 /* ViewPost Page */
@@ -60,19 +89,7 @@
   margin-top: 10px;
   margin-bottom: 5%;
 }
-.view-ways {
-  display: flex;
-  align-items: center;
-}
-.view-ways button{
-  background-color: white;
-  padding: 5px;
-  margin: 5px;
-  border-radius: 5px;
-}
-.view-ways button:hover{
-  cursor: pointer;
-}
+
 /* the container of the specific post */
 .view-post {
   border: 1px solid black;
@@ -100,24 +117,37 @@
   background-color: white;
   font-size: 1.3rem;
 }
-.delete-btn {
-  color: red;
-}
-.post-buttons button:hover {
-  cursor: pointer;
-}
 .upvote-button {
   display: flex;
   align-items: center;
   color: black;
   gap: 5px;
 }
+.thumb-up:hover{
+  cursor: pointer;
+  color: magenta;
+}
+.delete-btn {
+  text-decoration: none;
+  color: red;
+  font-size: 1.3rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.delete-btn:hover {
+  cursor: pointer;
+  color: rgb(239, 91, 91);
+  transform: translateY(-5px);
+}
 .edit-link {
   text-decoration: none;
   margin-right: 10px;
-  color: black;
   font-size: 1.3rem;
   color: blue;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.edit-link:hover {
+  color: rgb(82, 82, 217);
+  transform: translateY(-5px);
 }
 /* the back Link component that goes back to the homepage */
 .back-link {
@@ -125,10 +155,12 @@
   font-size: 1.7rem;
   color: black;
 }
-.each-comment{
+.each-comment {
   padding: 8px;
   margin-bottom: 5px;
   background: rgb(247, 243, 243);
+  display: flex;
+  justify-content: space-between;
 }
 .comment-item {
   display: flex;
@@ -162,7 +194,6 @@
   margin-bottom: 5%;
   border-radius: 10px;
   /* background: rgb(255, 253, 253); */
-
 }
 .form-item {
   margin: 15px;

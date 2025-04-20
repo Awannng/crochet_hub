@@ -6,6 +6,7 @@ import { IoHome } from "react-icons/io5";
 function App() {
   return (
     <>
+      {/* this shows on every page */}
       <div className="nav-bar">
         <h1>Crochet Hub</h1>
         <div className="nav-tabs">
@@ -19,7 +20,7 @@ function App() {
         </div>
       </div>
 
-      {/* shows the children route components */}
+      {/* shows the children route components, shows the index HomePage by default */}
       <Outlet />
     </>
   );

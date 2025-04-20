@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../client";
+import { getTimeAgo } from "../utils";
 
 const HomePage = () => {
   // storing post where fetch the data from the backend database
@@ -43,34 +44,6 @@ const HomePage = () => {
     fetchPost();
   }, [search, sort]);
 
-  // calculate how many time ago the post had been posted
-  const getTimeAgo = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const seconds = Math.floor((now - date) / 1000);
-
-    let interval = Math.floor(seconds / 31536000);
-    if (interval >= 1)
-      return `${interval} year${interval === 1 ? "" : "s"} ago`;
-
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1)
-      return `${interval} month${interval === 1 ? "" : "s"} ago`;
-
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) return `${interval} day${interval === 1 ? "" : "s"} ago`;
-
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1)
-      return `${interval} hour${interval === 1 ? "" : "s"} ago`;
-
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1)
-      return `${interval} minute${interval === 1 ? "" : "s"} ago`;
-
-    return "just now";
-  };
-
   return (
     <>
       <div className="posts-content">
@@ -83,9 +56,10 @@ const HomePage = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="view-ways">
+        <div className="sort-ways">
           <h3>Order by:</h3>
           <button
+            className={sort === "upvote" ? "selected" : "not-selected"}
             name="upvote"
             value="upvote"
             onClick={(e) => setSort(e.target.value)}
@@ -93,11 +67,12 @@ const HomePage = () => {
             Upvote
           </button>
           <button
+            className={sort === "date" ? "selected" : "not-selected"}
             name="date"
             value="date"
             onClick={(e) => setSort(e.target.value)}
           >
-            Date
+            Newest Date
           </button>
         </div>
 
