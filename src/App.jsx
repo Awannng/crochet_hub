@@ -7,7 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { UserAuth } from "../context/AuthContext";
 
 function App() {
-  const { session, signOut } = UserAuth();
+  const { signOut } = UserAuth();
   const navigate = useNavigate();
 
   // sign out of thr page
@@ -16,6 +16,7 @@ function App() {
     await signOut();
     navigate("/signin");
   };
+  
   return (
     <>
       {/* this shows on every page */}
@@ -30,7 +31,7 @@ function App() {
             <IoCreate />
           </Link>
 
-          <Link className="profile-link">
+          <Link className="profile-link" to='/profile'>
             <CgProfile />
           </Link>
 

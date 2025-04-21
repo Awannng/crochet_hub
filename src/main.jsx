@@ -9,6 +9,7 @@ import ViewPost from "../pages/ViewPost.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import SignIn from "../pages/SignIn.jsx";
 import SignUp from "../pages/SignUp.jsx";
+import Profile from "../pages/Profile.jsx";
 import { AuthContextProvider } from "../context/AuthContext.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
 
@@ -42,6 +43,9 @@ createRoot(document.getElementById("root")).render(
 
             {/* the more details page about the post */}
             <Route path="/view/:id" element={<ViewPost />} />
+
+            {/* the profile */}
+            <Route path="/profile" element={<Profile />} />
           </Route>
           {/* The create post page */}
         </Routes>

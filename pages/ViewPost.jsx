@@ -5,8 +5,7 @@ import { IoPlayBackSharp } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegThumbsUp } from "react-icons/fa6";
-import { FaArrowUp } from "react-icons/fa";
-import { getTimeAgo } from "../utils";
+import Comment from "../components/Comment";
 import { UserAuth } from "../context/AuthContext";
 
 const ViewPost = () => {
@@ -62,31 +61,6 @@ const ViewPost = () => {
     setPost((prev) => ({ ...prev, upvote: upvote }));
   };
 
-  // for comment input box type
-  const handleComment = (e) => {
-    setPost((prev) => {
-      return { ...prev, comment: e.target.value };
-    });
-  };
-
-  // insert comment to supabase Comments table with foregin key connected to individual Post
-  const addComment = async (e) => {
-    e.preventDefault();
-    if (post.comment === "") {
-      alert("Comment cannot be empty");
-      return;
-    }
-    const { data } = await supabase
-      .from("Comments")
-      .insert({ comment: post.comment, post_id: id })
-      .select();
-
-    // allows comment to be shown when added simultaneously
-    setComments((prev) => [data[0], ...prev]);
-    // refresh the comment input box
-    setPost((prev) => ({ ...prev, comment: "" }));
-  };
-
   //  delete the post, comments, image from the database
   const deletePost = async () => {
     // 1. Delete comments first (to avoid foreign key conflicts)
@@ -126,7 +100,7 @@ const ViewPost = () => {
               <p>Upvote: {post.upvote}</p>
             </div>
 
-            {/* only shows edit and delete buttons when the user_id from Post equal to current session's uid */}
+            {/* only shows edit and delete buttons when the uid from Post equal to current session's id */}
             {session.user.id === post.uid && (
               <div>
                 <Link to={`/edit/${post.id}`}>
@@ -141,34 +115,13 @@ const ViewPost = () => {
           </div>
         </div>
 
-        <div className="comments-section">
-          <h3>Comments</h3>
-          {/* display the comments */}
-          <div>
-            {comments &&
-              comments.map((comment, index) => {
-                return (
-                  <div key={index} className="each-comment">
-                    <p>{comment.comment}</p>
-                    <small>{getTimeAgo(comment.created_at)}</small>
-                  </div>
-                );
-              })}
-          </div>
-          <div className="comment-item">
-            <input
-              type="text"
-              name="comment"
-              id="comment"
-              placeholder="Leave a comment..."
-              value={post.comment}
-              onChange={handleComment}
-            />
-            <button onClick={addComment}>
-              <FaArrowUp className="comment-btn" />
-            </button>
-          </div>
-        </div>
+        <Comment
+          comments={comments}
+          setComments={setComments}
+          setPost={setPost}
+          post={post}
+          id={id}
+        />
       </div>
     </>
   );
