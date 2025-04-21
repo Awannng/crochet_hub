@@ -1,11 +1,13 @@
-import React, { useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../client";
 import { uploadImage } from "../utils";
+import { UserAuth } from "../context/AuthContext";
 
 const CreatePost = () => {
   const navigate = useNavigate(); //a function to direct path
   const fileInputRef = useRef(null);
+  const { session } = UserAuth();
 
   // storing the post information and send it to backend database
   const [postInfo, setPostInfo] = useState({
@@ -13,6 +15,7 @@ const CreatePost = () => {
     author: "",
     description: "",
     imageUrl: "",
+    user_id: "",
   });
 
   // change the when typing in the form
@@ -31,6 +34,7 @@ const CreatePost = () => {
     const file = fileInputRef.current?.files?.[0];
     const iamgeURL = await uploadImage(file); //get image url from supabse storage
 
+    // added the uid to Post as foreign key
     await supabase
       .from("Post")
       .insert({
@@ -39,6 +43,7 @@ const CreatePost = () => {
         description: postInfo.description,
         upvote: 0,
         imageUrl: iamgeURL,
+        uid: session.user.id,
       })
       .select();
 

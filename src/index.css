@@ -19,13 +19,17 @@
 }
 /* the Link component for create post */
 .create-link,
-.home-link {
+.home-link,
+.profile-link,
+.signout-link {
   text-decoration: none;
   font-size: 1.5rem;
   color: black;
 }
 .create-link:hover,
-.home-link:hover {
+.home-link:hover,
+.profile-link:hover,
+.signout-link:hover {
   color: #0d61b6;
 }
 /* the Links for naviagtion */
@@ -252,4 +256,25 @@ input[type="submit"]:hover {
 /* Edit page */
 .current-image {
   margin: 10px;
+}
+
+/* ----------------------------------------------------------------------------- */
+/* SignIn and SignUp page */
+.sign-form {
+  width: 70%;
+  margin: auto;
+  margin-top: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.sign-title {
+  margin: 40px;
+}
+.sign-item {
+  width: 100%;
+}
+.sign-p {
+  margin-top: 20px;
 }

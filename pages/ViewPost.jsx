@@ -7,6 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegThumbsUp } from "react-icons/fa6";
 import { FaArrowUp } from "react-icons/fa";
 import { getTimeAgo } from "../utils";
+import { UserAuth } from "../context/AuthContext";
 
 const ViewPost = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const ViewPost = () => {
     comment: "",
   });
   const navigate = useNavigate();
+  const { session } = UserAuth();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -124,15 +126,18 @@ const ViewPost = () => {
               <p>Upvote: {post.upvote}</p>
             </div>
 
-            <div>
-              <Link to={`/edit/${post.id}`}>
-                <FaEdit className="edit-link" />
-              </Link>
-              <button className="delete-btn" onClick={deletePost}>
-                <RiDeleteBin6Line />
-              </button>
-              {/*Delete the post */}
-            </div>
+            {/* only shows edit and delete buttons when the user_id from Post equal to current session's uid */}
+            {session.user.id === post.uid && (
+              <div>
+                <Link to={`/edit/${post.id}`}>
+                  <FaEdit className="edit-link" />
+                </Link>
+                <button className="delete-btn" onClick={deletePost}>
+                  <RiDeleteBin6Line />
+                </button>
+                {/*Delete the post */}
+              </div>
+            )}
           </div>
         </div>
 
@@ -160,7 +165,7 @@ const ViewPost = () => {
               onChange={handleComment}
             />
             <button onClick={addComment}>
-              <FaArrowUp className="comment-btn"/>
+              <FaArrowUp className="comment-btn" />
             </button>
           </div>
         </div>
