@@ -30,9 +30,13 @@ const CreatePost = () => {
   const createPost = async (e) => {
     e.preventDefault();
 
+    // Check if the user upload an image (allows user to create post without image)
     // Use the ref to access the file input
     const file = fileInputRef.current?.files?.[0];
-    const iamgeURL = await uploadImage(file); //get image url from supabse storage
+    let iamgeURL = "";
+    if (file) {
+      iamgeURL = await uploadImage(file); //get image url from supabse storage
+    }
 
     // added the uid to Post as foreign key
     await supabase

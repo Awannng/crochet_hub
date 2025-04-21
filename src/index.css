@@ -173,6 +173,8 @@
   padding: 8px;
   margin-bottom: 5px;
   background: rgb(247, 243, 243);
+}
+.comment-content {
   display: flex;
   justify-content: space-between;
 }

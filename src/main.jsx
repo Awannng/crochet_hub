@@ -44,7 +44,7 @@ createRoot(document.getElementById("root")).render(
             {/* the more details page about the post */}
             <Route path="/view/:id" element={<ViewPost />} />
 
-            {/* the profile */}
+            {/* the profile pahe that shows own posts*/}
             <Route path="/profile" element={<Profile />} />
           </Route>
           {/* The create post page */}

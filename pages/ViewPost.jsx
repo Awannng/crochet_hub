@@ -50,6 +50,7 @@ const ViewPost = () => {
     // have a count of upvotes and increase it when clicking
     const upvote = (post.upvote || 0) + 1;
 
+    // update the upvote in the supabase
     await supabase
       .from("Post")
       .update({
@@ -88,7 +89,14 @@ const ViewPost = () => {
 
           <div className="post-content">
             <p>Author: {post.author}</p>
-            <img className="post-image" src={post.imageUrl} alt="post image" />
+            {/* shows image when there is one */}
+            {post.imageUrl && (
+              <img
+                className="post-image"
+                src={post.imageUrl}
+                alt="post image"
+              />
+            )}
             <p className="description">{post.description}</p>
           </div>
 

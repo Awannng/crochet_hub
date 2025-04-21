@@ -1,13 +1,17 @@
 import { createContext, useEffect, useState, useContext } from "react";
 import { supabase } from "../client";
 
+// Create authentication context
 const AuthContext = createContext();
 
+// Auth context provider component that wraps your app
 export const AuthContextProvider = ({ children }) => {
+  // State to store the current user session
   const [session, setSession] = useState(null);
 
   //   Sign Up function
   const signUp = async (email, password) => {
+    // Call Supabase auth API to register new user
     const { data, error } = await supabase.auth.signUp({
       email: email.toLowerCase(),
       password: password,
@@ -22,6 +26,7 @@ export const AuthContextProvider = ({ children }) => {
 
   //   Sign in
   const signIn = async (email, password) => {
+    // Call Supabase auth API to log in user
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email.toLowerCase(),
       password: password,
@@ -34,11 +39,14 @@ export const AuthContextProvider = ({ children }) => {
     return { success: true };
   };
 
+  // Effect to handle session state changes
   useEffect(() => {
+    // Check for existing session when component mounts
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
 
+    // Check for existing session when components
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
@@ -52,6 +60,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  // Provide auth functions and session state to children
   return (
     <AuthContext.Provider value={{ session, signUp, signIn, signOut }}>
       {children}{" "}
@@ -59,6 +68,7 @@ export const AuthContextProvider = ({ children }) => {
   );
 };
 
+// Custom hook to easily access auth context
 export const UserAuth = () => {
   return useContext(AuthContext);
 };
